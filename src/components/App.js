@@ -1,10 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import youtube from '../apis/youtube.js';
 import SearchBar from './SearchBar';
 import VideoList from './VideoList';
 import VideoDetail from './VideoDetail';
+import useVideos from '../hooks/useVideos';
 
-class App extends React.Component {
+
+const App = () => {
+    const [selectedVideo, setSelectedVideo] = useState(null);
+    const [videos, search] = useVideos('bmx');
+
+
+    useEffect(() => {
+        setSelectedVideo(videos[0]);
+    }, [videos])
+
+    return (
+        <div className="ui container">
+            <SearchBar onSearchSubmit={search} />
+            <div className="ui grid">
+                <div className="ui stackable grid">
+                    <div className="ten wide column">
+                        <VideoDetail video={selectedVideo} />
+                    </div>
+                    <div className="six wide column">
+                     <VideoList onVideoSelect={(video) => setSelectedVideo(video) }  
+                     videos={videos} />
+                    </div>
+                </div>
+            </div>        
+        </div>
+    );
+}; 
+
+{/* CLASS COMPONENT
+    class App extends React.Component {
     state= { videos: [], selectedVideo: null };
 
     componentDidMount() {
@@ -46,6 +76,6 @@ class App extends React.Component {
             </div>
         )
     }
-}
+} */}
 
 export default App;

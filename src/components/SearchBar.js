@@ -1,6 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class SearchBar extends React.Component {
+const SearchBar = ({ onSearchSubmit }) => {
+    const[searchText, setSearch] = useState('');
+
+    const onInputChange = event =>  {
+        setSearch(event.target.value)
+     };
+ 
+    const onSearch = event => {
+         event.preventDefault();
+         onSearchSubmit(searchText);
+     };
+ 
+     return (
+        <div className="ui segment search-bar">
+            <form onSubmit={onSearch} className="ui form">
+                <div className="field">
+                    <input placeholder="Search for a Video" type="text" value={searchText} onChange={onInputChange} />
+                </div>
+            </form>
+        </div>
+    );
+
+};
+
+{ /* CLASS COMPONENT
+    class SearchBar extends React.Component {
     state = { searchtext: '' };
     onInputChange = event =>  {
        this.setState({ searchtext: event.target.value })
@@ -9,7 +34,7 @@ class SearchBar extends React.Component {
     onFormSubmit = event => {
         event.preventDefault();
         this.props.onSearchSubmit(this.state.searchtext);
-    };
+    }; 
 
     render(){
         return (
@@ -20,8 +45,8 @@ class SearchBar extends React.Component {
                     </div>
                 </form>
             </div>
-        )
-    }
-}
+        );
+    };
+}; */}
 
 export default SearchBar;
